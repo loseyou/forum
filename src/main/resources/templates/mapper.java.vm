@@ -1,0 +1,10 @@
+package ${package.Mapper};
+
+/**
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+public interface ${table.mapperName} {
+
+}
