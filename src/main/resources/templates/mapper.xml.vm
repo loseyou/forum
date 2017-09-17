@@ -30,7 +30,7 @@
 #end
 #if(${baseColumnList})
     <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
+    <sql id="BaseColumnList">
 #foreach($field in ${table.commonFields})
 	#if(${field.name} == ${field.propertyName})${field.name}#else${field.name} AS ${field.propertyName}#end,
 #end
@@ -39,20 +39,56 @@
 
 #end
 
-	<insert id="add" parameterType="${package.Entity}.${entity}">
+	<insert id="add${entity}" parameterType="${package.Entity}.${entity}">
 		insert into
 		$lowerEntity
-		(
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
 		#foreach($field in ${table.fields})
-			${field.name}#if( $foreach.hasNext ),#end
+			${field.name},
 		#end
-		)
+		</trim>
 		values
-		(
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
 		#foreach($field in ${table.fields})
-			#{${field.name}}#if($foreach.hasNext ),#end
+			#{${field.name}},
 		#end	
-		)
+		</trim>
 	</insert>
-
+	
+	<delete id="delete${entity}" parameterType="${package.Entity}.${entity}">
+		delete
+		from $lowerEntity
+		where
+		id=#{id}
+	</delete>
+	
+	<update id="update${entity}" parameterType="${package.Entity}.${entity}">
+		update 
+		$lowerEntity
+		<set>
+			#foreach($field in ${table.fields})
+				<if test="${field.name}!=null and ${field.name}!=''">
+					${field.name}=#{${field.name}},
+				</if>
+			#end
+		</set>
+	</update>
+	
+	<select id="select${entity}ById" parameterType="com.lose.forum.model.User" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from $lowerEntity
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="select${entity}List" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from $lowerEntity
+	</select>
+	
 </mapper>

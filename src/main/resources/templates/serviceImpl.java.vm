@@ -2,6 +2,15 @@ package ${package.ServiceImpl};
 
 import ${package.Service}.${table.serviceName};
 import org.springframework.stereotype.Service;
+import ${package.Mapper}.${table.mapperName};
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import ${package.Entity}.${entity};
+
+#set ($lowerMapperName=$table.mapperName.substring(0,1).toLowerCase()+$table.mapperName.substring(1,$table.mapperName.length()))
+#set ($lowerEntity=$entity.substring(0,1).toLowerCase()+$entity.substring(1,$entity.length()))
 
 /**
  *
@@ -10,5 +19,30 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ${table.serviceImplName} implements ${table.serviceName} {
+	
+	private static final Logger logger = LoggerFactory.getLogger(${table.serviceImplName}.class);
+	
+	@Autowired
+	private ${table.mapperName} ${lowerMapperName};
+	
+	public Integer add${entity}(${entity} ${lowerEntity}){
+		return ${lowerMapperName}.add${entity}(${lowerEntity});
+	}
+	
+	public Integer delete${entity}(${entity} ${lowerEntity}){
+		return ${lowerMapperName}.delete${entity}(${lowerEntity});
+	}
+	
+	public Integer update${entity}(${entity} ${lowerEntity}){
+		return ${lowerMapperName}.update${entity}(${lowerEntity});
+	}
+	
+	public ${entity} select${entity}ById(${entity} ${lowerEntity}){
+		return ${lowerMapperName}.select${entity}ById(${lowerEntity});
+	}
+	
+	public List<${entity}> select${entity}List(){
+		return ${lowerMapperName}.select${entity}List();
+	}
 	
 }

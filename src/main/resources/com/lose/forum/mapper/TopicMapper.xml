@@ -2,10 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lose.forum.dao.TopicDao">
 
+
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.lose.forum.model.Topic">
 		<id column="id" property="id" />
 		<result column="name" property="name" />
 	</resultMap>
 
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        id, name
+    </sql>
+
+
+	<insert id="addTopic" parameterType="com.lose.forum.model.Topic">
+		insert into
+		topic
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					id,
+					name,
+				</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					#{id},
+					#{name},
+				</trim>
+	</insert>
+	
+	<delete id="deleteTopic" parameterType="com.lose.forum.model.Topic">
+		delete
+		from topic
+		where
+		id=#{id}
+	</delete>
+	
+	<update id="updateTopic" parameterType="com.lose.forum.model.Topic">
+		update 
+		topic
+		<set>
+							<if test="id!=null and id!=''">
+					id=#{id},
+				</if>
+							<if test="name!=null and name!=''">
+					name=#{name},
+				</if>
+					</set>
+	</update>
+	
+	<select id="selectTopicById" parameterType="com.lose.forum.model.User" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from topic
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectTopicList" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from topic
+	</select>
+	
 </mapper>

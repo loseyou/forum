@@ -2,10 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lose.forum.dao.TopicLikeDao">
 
+
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.lose.forum.model.TopicLike">
 		<id column="topic_id" property="topicId" />
 		<result column="user_id" property="userId" />
 	</resultMap>
 
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        topic_id AS topicId, user_id AS userId
+    </sql>
+
+
+	<insert id="addTopicLike" parameterType="com.lose.forum.model.TopicLike">
+		insert into
+		topicLike
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					topic_id,
+					user_id,
+				</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					#{topic_id},
+					#{user_id},
+				</trim>
+	</insert>
+	
+	<delete id="deleteTopicLike" parameterType="com.lose.forum.model.TopicLike">
+		delete
+		from topicLike
+		where
+		id=#{id}
+	</delete>
+	
+	<update id="updateTopicLike" parameterType="com.lose.forum.model.TopicLike">
+		update 
+		topicLike
+		<set>
+							<if test="topic_id!=null and topic_id!=''">
+					topic_id=#{topic_id},
+				</if>
+							<if test="user_id!=null and user_id!=''">
+					user_id=#{user_id},
+				</if>
+					</set>
+	</update>
+	
+	<select id="selectTopicLikeById" parameterType="com.lose.forum.model.User" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from topicLike
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectTopicLikeList" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from topicLike
+	</select>
+	
 </mapper>

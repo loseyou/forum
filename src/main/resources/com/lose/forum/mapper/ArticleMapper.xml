@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lose.forum.dao.ArticleDao">
 
+
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.lose.forum.model.Article">
 		<id column="id" property="id" />
@@ -13,4 +14,86 @@
 		<result column="update_time" property="updateTime" />
 	</resultMap>
 
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        id, title, content, contenthtml, create_time AS createTime, user_id AS userId, update_time AS updateTime
+    </sql>
+
+
+	<insert id="addArticle" parameterType="com.lose.forum.model.Article">
+		insert into
+		article
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					id,
+					title,
+					content,
+					contenthtml,
+					create_time,
+					user_id,
+					update_time,
+				</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					#{id},
+					#{title},
+					#{content},
+					#{contenthtml},
+					#{create_time},
+					#{user_id},
+					#{update_time},
+				</trim>
+	</insert>
+	
+	<delete id="deleteArticle" parameterType="com.lose.forum.model.Article">
+		delete
+		from article
+		where
+		id=#{id}
+	</delete>
+	
+	<update id="updateArticle" parameterType="com.lose.forum.model.Article">
+		update 
+		article
+		<set>
+							<if test="id!=null and id!=''">
+					id=#{id},
+				</if>
+							<if test="title!=null and title!=''">
+					title=#{title},
+				</if>
+							<if test="content!=null and content!=''">
+					content=#{content},
+				</if>
+							<if test="contenthtml!=null and contenthtml!=''">
+					contenthtml=#{contenthtml},
+				</if>
+							<if test="create_time!=null and create_time!=''">
+					create_time=#{create_time},
+				</if>
+							<if test="user_id!=null and user_id!=''">
+					user_id=#{user_id},
+				</if>
+							<if test="update_time!=null and update_time!=''">
+					update_time=#{update_time},
+				</if>
+					</set>
+	</update>
+	
+	<select id="selectArticleById" parameterType="com.lose.forum.model.User" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from article
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectArticleList" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from article
+	</select>
+	
 </mapper>

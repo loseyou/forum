@@ -1,10 +1,25 @@
 package ${package.Mapper};
 
+import ${package.Entity}.${entity};
+import java.util.List;
+
+#set ($lowerEntity=$entity.substring(0,1).toLowerCase()+$entity.substring(1,$entity.length()))
+
 /**
  *
  * @author ${author}
  * @since ${date}
  */
 public interface ${table.mapperName} {
-
+	
+	Integer add${entity}(${entity} ${lowerEntity});
+	
+	Integer delete${entity}(${entity} ${lowerEntity});
+	
+	Integer update${entity}(${entity} ${lowerEntity});
+	
+	${entity} select${entity}ById(${entity} ${lowerEntity});
+	
+	List<${entity}> select${entity}List();
+	
 }

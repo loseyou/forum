@@ -2,10 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lose.forum.dao.TagDao">
 
+
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.lose.forum.model.Tag">
 		<id column="id" property="id" />
 		<result column="name" property="name" />
 	</resultMap>
 
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        id, name
+    </sql>
+
+
+	<insert id="addTag" parameterType="com.lose.forum.model.Tag">
+		insert into
+		tag
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					id,
+					name,
+				</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					#{id},
+					#{name},
+				</trim>
+	</insert>
+	
+	<delete id="deleteTag" parameterType="com.lose.forum.model.Tag">
+		delete
+		from tag
+		where
+		id=#{id}
+	</delete>
+	
+	<update id="updateTag" parameterType="com.lose.forum.model.Tag">
+		update 
+		tag
+		<set>
+							<if test="id!=null and id!=''">
+					id=#{id},
+				</if>
+							<if test="name!=null and name!=''">
+					name=#{name},
+				</if>
+					</set>
+	</update>
+	
+	<select id="selectTagById" parameterType="com.lose.forum.model.User" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from tag
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectTagList" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from tag
+	</select>
+	
 </mapper>

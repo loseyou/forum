@@ -2,10 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lose.forum.dao.ArticleTagDao">
 
+
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.lose.forum.model.ArticleTag">
 		<id column="article_id" property="articleId" />
 		<result column="tag_id" property="tagId" />
 	</resultMap>
 
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        article_id AS articleId, tag_id AS tagId
+    </sql>
+
+
+	<insert id="addArticleTag" parameterType="com.lose.forum.model.ArticleTag">
+		insert into
+		articleTag
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					article_id,
+					tag_id,
+				</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					#{article_id},
+					#{tag_id},
+				</trim>
+	</insert>
+	
+	<delete id="deleteArticleTag" parameterType="com.lose.forum.model.ArticleTag">
+		delete
+		from articleTag
+		where
+		id=#{id}
+	</delete>
+	
+	<update id="updateArticleTag" parameterType="com.lose.forum.model.ArticleTag">
+		update 
+		articleTag
+		<set>
+							<if test="article_id!=null and article_id!=''">
+					article_id=#{article_id},
+				</if>
+							<if test="tag_id!=null and tag_id!=''">
+					tag_id=#{tag_id},
+				</if>
+					</set>
+	</update>
+	
+	<select id="selectArticleTagById" parameterType="com.lose.forum.model.User" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from articleTag
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectArticleTagList" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from articleTag
+	</select>
+	
 </mapper>

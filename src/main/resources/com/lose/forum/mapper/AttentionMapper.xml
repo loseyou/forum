@@ -2,10 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lose.forum.dao.AttentionDao">
 
+
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.lose.forum.model.Attention">
 		<id column="user_id" property="userId" />
 		<result column="attention_user_id" property="attentionUserId" />
 	</resultMap>
 
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        user_id AS userId, attention_user_id AS attentionUserId
+    </sql>
+
+
+	<insert id="addAttention" parameterType="com.lose.forum.model.Attention">
+		insert into
+		attention
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					user_id,
+					attention_user_id,
+				</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					#{user_id},
+					#{attention_user_id},
+				</trim>
+	</insert>
+	
+	<delete id="deleteAttention" parameterType="com.lose.forum.model.Attention">
+		delete
+		from attention
+		where
+		id=#{id}
+	</delete>
+	
+	<update id="updateAttention" parameterType="com.lose.forum.model.Attention">
+		update 
+		attention
+		<set>
+							<if test="user_id!=null and user_id!=''">
+					user_id=#{user_id},
+				</if>
+							<if test="attention_user_id!=null and attention_user_id!=''">
+					attention_user_id=#{attention_user_id},
+				</if>
+					</set>
+	</update>
+	
+	<select id="selectAttentionById" parameterType="com.lose.forum.model.User" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from attention
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectAttentionList" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from attention
+	</select>
+	
 </mapper>

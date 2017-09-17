@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lose.forum.dao.MenuDao">
 
+
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.lose.forum.model.Menu">
 		<id column="id" property="id" />
@@ -10,4 +11,71 @@
 		<result column="menu_id" property="menuId" />
 	</resultMap>
 
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        id, name, url, menu_id AS menuId
+    </sql>
+
+
+	<insert id="addMenu" parameterType="com.lose.forum.model.Menu">
+		insert into
+		menu
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					id,
+					name,
+					url,
+					menu_id,
+				</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					#{id},
+					#{name},
+					#{url},
+					#{menu_id},
+				</trim>
+	</insert>
+	
+	<delete id="deleteMenu" parameterType="com.lose.forum.model.Menu">
+		delete
+		from menu
+		where
+		id=#{id}
+	</delete>
+	
+	<update id="updateMenu" parameterType="com.lose.forum.model.Menu">
+		update 
+		menu
+		<set>
+							<if test="id!=null and id!=''">
+					id=#{id},
+				</if>
+							<if test="name!=null and name!=''">
+					name=#{name},
+				</if>
+							<if test="url!=null and url!=''">
+					url=#{url},
+				</if>
+							<if test="menu_id!=null and menu_id!=''">
+					menu_id=#{menu_id},
+				</if>
+					</set>
+	</update>
+	
+	<select id="selectMenuById" parameterType="com.lose.forum.model.User" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from menu
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectMenuList" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from menu
+	</select>
+	
 </mapper>

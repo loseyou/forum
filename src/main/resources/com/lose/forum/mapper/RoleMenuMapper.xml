@@ -2,10 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lose.forum.dao.RoleMenuDao">
 
+
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.lose.forum.model.RoleMenu">
 		<id column="role_id" property="roleId" />
 		<result column="menu_id" property="menuId" />
 	</resultMap>
 
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        role_id AS roleId, menu_id AS menuId
+    </sql>
+
+
+	<insert id="addRoleMenu" parameterType="com.lose.forum.model.RoleMenu">
+		insert into
+		roleMenu
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					role_id,
+					menu_id,
+				</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					#{role_id},
+					#{menu_id},
+				</trim>
+	</insert>
+	
+	<delete id="deleteRoleMenu" parameterType="com.lose.forum.model.RoleMenu">
+		delete
+		from roleMenu
+		where
+		id=#{id}
+	</delete>
+	
+	<update id="updateRoleMenu" parameterType="com.lose.forum.model.RoleMenu">
+		update 
+		roleMenu
+		<set>
+							<if test="role_id!=null and role_id!=''">
+					role_id=#{role_id},
+				</if>
+							<if test="menu_id!=null and menu_id!=''">
+					menu_id=#{menu_id},
+				</if>
+					</set>
+	</update>
+	
+	<select id="selectRoleMenuById" parameterType="com.lose.forum.model.User" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from roleMenu
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectRoleMenuList" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from roleMenu
+	</select>
+	
 </mapper>

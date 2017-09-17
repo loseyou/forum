@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lose.forum.dao.ArticleCommentDao">
 
+
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.lose.forum.model.ArticleComment">
 		<id column="id" property="id" />
@@ -11,4 +12,76 @@
 		<result column="comment_id" property="commentId" />
 	</resultMap>
 
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        id, article_id AS articleId, user_id AS userId, name, comment_id AS commentId
+    </sql>
+
+
+	<insert id="addArticleComment" parameterType="com.lose.forum.model.ArticleComment">
+		insert into
+		articleComment
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					id,
+					article_id,
+					user_id,
+					name,
+					comment_id,
+				</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+					#{id},
+					#{article_id},
+					#{user_id},
+					#{name},
+					#{comment_id},
+				</trim>
+	</insert>
+	
+	<delete id="deleteArticleComment" parameterType="com.lose.forum.model.ArticleComment">
+		delete
+		from articleComment
+		where
+		id=#{id}
+	</delete>
+	
+	<update id="updateArticleComment" parameterType="com.lose.forum.model.ArticleComment">
+		update 
+		articleComment
+		<set>
+							<if test="id!=null and id!=''">
+					id=#{id},
+				</if>
+							<if test="article_id!=null and article_id!=''">
+					article_id=#{article_id},
+				</if>
+							<if test="user_id!=null and user_id!=''">
+					user_id=#{user_id},
+				</if>
+							<if test="name!=null and name!=''">
+					name=#{name},
+				</if>
+							<if test="comment_id!=null and comment_id!=''">
+					comment_id=#{comment_id},
+				</if>
+					</set>
+	</update>
+	
+	<select id="selectArticleCommentById" parameterType="com.lose.forum.model.User" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from articleComment
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectArticleCommentList" resultMap="BaseResultMap">
+		select 
+		<include refid="BaseColumnList" />
+		from articleComment
+	</select>
+	
 </mapper>
