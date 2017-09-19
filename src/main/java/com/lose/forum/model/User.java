@@ -1,10 +1,11 @@
 package com.lose.forum.model;
 
-import com.baomidou.mybatisplus.enums.IdType;
-import com.baomidou.mybatisplus.annotations.TableId;
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.annotations.Version;
+import org.hibernate.validator.constraints.Email;
+
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -24,6 +25,7 @@ public class User implements Serializable {
 	private Integer id;
 	private String name;
 	private String password;
+	@Email
 	private String email;
 	private String image;
 

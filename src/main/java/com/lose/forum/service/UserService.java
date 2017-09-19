@@ -1,8 +1,7 @@
 package com.lose.forum.service;
 
-import com.lose.forum.model.User;
 import java.util.List;
-
+import com.lose.forum.model.User;
 
 /**
  *

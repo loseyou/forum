@@ -65,6 +65,7 @@
 					image=#{image},
 				</if>
 					</set>
+		where id=#{id}
 	</update>
 	
 	<select id="selectUserById" parameterType="com.lose.forum.model.User" resultMap="BaseResultMap">

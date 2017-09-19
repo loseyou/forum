@@ -72,6 +72,7 @@
 				</if>
 			#end
 		</set>
+		where id=#{id}
 	</update>
 	
 	<select id="select${entity}ById" parameterType="com.lose.forum.model.User" resultMap="BaseResultMap">
