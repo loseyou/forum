@@ -2,6 +2,8 @@ package com.lose.forum.model;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Min;
+
 import org.hibernate.validator.constraints.Email;
 
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -24,6 +26,7 @@ public class User implements Serializable {
 	@TableId(value="id", type= IdType.AUTO)
 	private Integer id;
 	private String name;
+	@Min(6)
 	private String password;
 	@Email
 	private String email;

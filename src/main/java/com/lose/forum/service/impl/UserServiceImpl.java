@@ -2,8 +2,6 @@ package com.lose.forum.service.impl;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,22 +25,27 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
 	
+	@Override
 	public Integer addUser(User user){
 		return userDao.addUser(user);
 	}
 	
+	@Override
 	public Integer deleteUser(User user){
 		return userDao.deleteUser(user);
 	}
 	
+	@Override
 	public Integer updateUser(User user){
 		return userDao.updateUser(user);
 	}
 	
+	@Override
 	public User selectUserById(User user){
 		return userDao.selectUserById(user);
 	}
 	
+	@Override
 	public List<User> selectUserList(){
 		return userDao.selectUserList();
 	}

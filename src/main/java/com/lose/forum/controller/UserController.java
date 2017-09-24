@@ -2,8 +2,6 @@ package com.lose.forum.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lose.forum.annotation.MethodValid;
+import com.lose.forum.annotation.ParamValid;
 import com.lose.forum.model.User;
 import com.lose.forum.service.UserService;
 
@@ -31,9 +31,10 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
+
+	@MethodValid
 	@PostMapping
-	public @ResponseBody Integer addUser(User user){
+	public @ResponseBody Integer addUser(@ParamValid User user){
 		return userService.addUser(user);
 	}
 	
